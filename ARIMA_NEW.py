@@ -28,14 +28,14 @@ print(test)
 input('enter....')
 predictions = list()
 for t in range(len(test)):
-   model = ARIMA(history, order=(5,1,0))
+   model = ARIMA(history, order=(1,1,0))
    model_fit = model.fit(disp=0)
    output = model_fit.forecast()
    yhat = output[0]
    predictions.append(yhat)
    obs = test[t]
    history.append(obs)
-   print('predicted=%f, expected=%f ,time=%d' % (yhat, obs, t))
+   # print('predicted=%f, expected=%f ,time=%d' % (yhat, obs, t))
 print(predictions)
 print(test)
 input('enter....')
