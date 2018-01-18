@@ -21,18 +21,12 @@ X = series.values
 size = int(len(X) * 0.7)
 train, test = X[0:size], X[size:len(X)]
 history = [x for x in train]
-timestep =3
-test_lenth = len(test)
+timestep =1
 
-getmo =test_lenth%timestep
-test = test[:-getmo]
-loop = len(test)/timestep
-print(test_lenth)
 print(len(test))
-print(test)
 input('enter....')
 predictions = list()
-for t in range(int(loop)):
+for t in range(len(test)):
    model = ARIMA(history, order=(5,1,0))
    model_fit = model.fit(disp=0)
    output = model_fit.forecast(steps=timestep)
