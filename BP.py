@@ -65,6 +65,7 @@ input('enter')
 
 # split into train and test sets
 values = reframed.values
+
 print(values)
 print('len',len(values))
 n_train_days =2983 # train is time_step0%
@@ -74,17 +75,17 @@ test = values[n_train_days:, :]
 train_X, train_y = train[:, :-time_step], train[:,-time_step:]
 test_X, test_y = test[:, :-time_step], test[:, -time_step:]
 # reshape input to be 3D [samples, timesteps, features]
-train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
-test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
+# train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
+# test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
 print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 input('enter')
 # design network
+
 model = Sequential()
-model.add(LSTM(64, input_shape=(train_X.shape[1], train_X.shape[2])))
+model.add(Dense(output_dim=3, input_dim=time_step))
 model.add(Dense(time_step))
 model.compile(loss='mae', optimizer='adam')
 # fit network
-
 history = model.fit(train_X, train_y, epochs=10, batch_size=14, validation_data=(test_X, test_y), verbose=2,
                     shuffle=False)
 # plot history
@@ -96,7 +97,7 @@ history = model.fit(train_X, train_y, epochs=10, batch_size=14, validation_data=
 # make a prediction
 yhat = model.predict(test_X)
 print('yhat:',yhat.shape)
-test_X = test_X.reshape((test_X.shape[0], test_X.shape[2]))
+test_X = test_X.reshape((test_X.shape[0], test_X.shape[1]))
 # invert scaling for forecast
 inv_yhat = concatenate((yhat, test_X[:, time_step:]), axis=1)
 inv_yhat = scaler.inverse_transform(inv_yhat)
