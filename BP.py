@@ -4,6 +4,7 @@ from matplotlib import pyplot
 from pandas import read_csv
 from pandas import DataFrame
 from pandas import concat
+import pandas as  pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import mean_squared_error
@@ -110,6 +111,8 @@ predictions = list()
 #     print(t)
 #     t=t+3
 print(len(predictions))
+save = pd.DataFrame(inv_yhat)
+save.to_csv('bp_step14.csv')
 # invert scaling for actual
 test_y = test_y.reshape((len(test_y), time_step))
 print('inv_yhat is:',inv_yhat)

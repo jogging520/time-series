@@ -58,25 +58,25 @@ def define_models(n_input, n_output, n_units):
 	# define training encoder
 	encoder_inputs = Input(shape=(None, n_input))
 	encoder = LSTM(n_units, return_state=True)
-	encoder_outputs, state_h, state_c = encoder(encoder_inputs)
-	encoder_states = [state_h, state_c]
+	state_h, state_c = encoder(encoder_inputs)
+	encoder_states = [state_h]
 	# define training decoder
-	decoder_inputs = Input(shape=(None, n_output))
+	decoder_inputs = Input(shape=(None, 1))
 	decoder_lstm = LSTM(n_units, return_sequences=True, return_state=True)
 	decoder_outputs, _, _ = decoder_lstm(decoder_inputs, initial_state=encoder_states)
-	decoder_dense = Dense(n_output, activation='softmax')
+	decoder_dense = Dense(n_output)
 	decoder_outputs = decoder_dense(decoder_outputs)
 	model = Model(encoder_inputs, decoder_outputs)
 	# define inference encoder
 	encoder_model = Model(encoder_inputs, encoder_states)
 	# define inference decoder
-	decoder_state_input_h = Input(shape=(n_units,))
+	#decoder_state_input_h = Input(shape=(n_units,))
 	decoder_state_input_c = Input(shape=(n_units,))
-	decoder_states_inputs = [decoder_state_input_h, decoder_state_input_c]
-	decoder_outputs, state_h, state_c = decoder_lstm(decoder_inputs, initial_state=decoder_states_inputs)
-	decoder_states = [state_h, state_c]
-	decoder_outputs = decoder_dense(decoder_outputs)
-	decoder_model = Model(decoder_states_inputs, decoder_outputs)
+	#decoder_states_inputs = [decoder_state_input_c]
+    dstate_h, dstate_c = decoder_lstm(decoder_inputs, initial_state=decoder_state_input_c)
+	decoder_states = [dstate_c]
+	decoder_outputs = decoder_dense(dstate_h)
+	decoder_model = Model(decoder_inputs, decoder_outputs)
 	# return all models
 	return model, encoder_model, decoder_model
 
@@ -125,17 +125,18 @@ test = values[n_train_days:, :]
 train_X, train_y = train[:, :-time_step], train[:,-time_step:]
 test_X, test_y = test[:, :-time_step], test[:, -time_step:]
 # reshape input to be 3D [samples, timesteps, features]
-# train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
-# test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
+train_X = train_X.reshape((train_X.shape[0], 1, train_X.shape[1]))
+test_X = test_X.reshape((test_X.shape[0], 1, test_X.shape[1]))
 print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
 input('enter...')
 # configure problem
 n_steps_in = time_step
 n_steps_out = time_step
 # define model
-train, infenc, infdec = define_models(time_step, time_step, 128)
+train, infenc, infdec = define_models(time_step, time_step, 64)
 train.compile(optimizer='adam', loss='mae', metrics=['acc'])
 X1, y= train_X, train_y
+X2 =[0]+train_X[:-1]
 print(X1.shape,y.shape)
 input('enter')
 # train model

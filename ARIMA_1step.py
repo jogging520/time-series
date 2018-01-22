@@ -1,5 +1,6 @@
 from pandas import read_csv
 from pandas import datetime
+import pandas as pd
 import numpy as np
 from math import sqrt
 from matplotlib import pyplot
@@ -37,12 +38,13 @@ for t in range(len(test)):
    obs = test[t:t+timestep]
    for obs_item in obs:
       history.append(obs_item)
-   print('predicted, expected,time',yhat,obs,t)
+   #print('predicted, expected,time',yhat,obs,t)
 
 input('enter....')
 print('test',len(test))
 print('prediction',len(predictions))
-
+save = pd.DataFrame(predictions)
+save.to_csv('arima_step3.csv')
 
 error = mean_squared_error(test, predictions)
 print('Test MSE: %.3f' % error)

@@ -4,6 +4,7 @@ from matplotlib import pyplot
 from pandas import read_csv
 from pandas import DataFrame
 from pandas import concat
+import pandas as  pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import mean_squared_error
@@ -102,6 +103,8 @@ inv_yhat = concatenate((yhat, test_X[:, time_step:]), axis=1)
 inv_yhat = scaler.inverse_transform(inv_yhat)
 inv_yhat = inv_yhat[:, 0:time_step]
 
+save = pd.DataFrame(inv_yhat)
+save.to_csv('clstm_step14.csv')
 predictions = list()
 # for t in range(test_X.shape[0]):
 #     for yhat_item in inv_yhat[t]:
