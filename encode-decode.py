@@ -93,6 +93,8 @@ train.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc']
 # generate training dataset
 X1, X2, y = get_dataset(n_steps_in, n_steps_out, n_features, 100000)
 print(X1.shape,X2.shape,y.shape)
+print(X1)
+input('enter...')
 # train model
 train.fit([X1, X2], y, epochs=1)
 # evaluate LSTM
