@@ -7,11 +7,12 @@ from pandas import concat
 import pandas as  pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
-from sklearn.metrics import mean_squared_error
+
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
 
 
 # convert series to supervised learning
