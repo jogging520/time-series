@@ -42,7 +42,9 @@ for t in range(len(test)):
 
 input('enter....')
 print('test',len(test))
-print('prediction',len(predictions))
+print('prediction',len(test))
+savetest= pd.DataFrame(predictions)
+savetest.to_csv('test.csv')
 save = pd.DataFrame(predictions)
 save.to_csv('arima_step3.csv')
 
