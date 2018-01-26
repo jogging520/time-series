@@ -13,7 +13,7 @@ plt.figure(figsize=(10,5))
 
 # data.index = data['time'].values
 plt.ylabel('S&P500_index')
-plt.xlabel('trade_date')
+plt.xlabel('Trade_date')
 plt.figure(figsize=(10,5))
 plt.plot(data)
 plt.title('S&P 500 index series')
