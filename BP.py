@@ -56,7 +56,7 @@ values = values.astype('float32')
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled = scaler.fit_transform(values)
 
-time_step = 14
+time_step = 1
 # frame as supervised learning
 reframed = series_to_supervised(scaled,time_step,time_step)
 
@@ -112,7 +112,7 @@ predictions = list()
 #     t=t+3
 print(len(predictions))
 save = pd.DataFrame(inv_yhat)
-save.to_csv('bp_step14.csv')
+save.to_csv('bp_step1.csv')
 # invert scaling for actual
 test_y = test_y.reshape((len(test_y), time_step))
 print('inv_yhat is:',inv_yhat)

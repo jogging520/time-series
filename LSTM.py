@@ -57,7 +57,7 @@ values = values.astype('float32')
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled = scaler.fit_transform(values)
 
-time_step = 14
+time_step = 3
 # frame as supervised learning
 reframed = series_to_supervised(scaled,time_step,time_step)
 

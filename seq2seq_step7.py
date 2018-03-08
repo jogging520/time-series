@@ -132,7 +132,7 @@ values = values.astype('float32')
 scaler = MinMaxScaler(feature_range=(0, 1))
 scaled = scaler.fit_transform(values)
 
-time_step = 1
+time_step = 7
 # frame as supervised learning
 reframed = series_to_supervised(scaled,time_step,time_step)
 
@@ -199,7 +199,7 @@ inv_yhat = inv_yhat[:, 0:time_step]
 
 
 save = pd.DataFrame(inv_yhat)
-save.to_csv('seq2seq_step1.csv')
+save.to_csv('seq2seq_step7.csv')
 # invert scaling for actual
 test_y = test_y.reshape((len(test_y), time_step))
 print('inv_yhat is:',inv_yhat)
